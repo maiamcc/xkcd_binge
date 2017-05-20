@@ -1,8 +1,8 @@
-/*Special Thanks
+/*
+  Special Thanks: ... harris?
 
- ...harris?
-
- */
+  TODO: 'random' hotkey
+*/
 
 $(function() {
   // Given a jQuery elem., toggle display: block <--> none.
@@ -24,10 +24,30 @@ $(function() {
   }
 
   chrome.extension.sendRequest({},function(response) {
+    var downscroll;
+    var prev_key;
+    var next_key;
+    var alttext_key;
+
+    // TODO: make this command/these defaults common (for access from options.js)
+    chrome.storage.sync.get({
+      downscroll_opt: 75,
+      prev_key_opt: 37,  // L arrow
+      next_key_opt: 39, // R arrow
+      alttext_key_opt: 32,  // spacebar
+    }, function(items) {
+      console.log(items);
+
+      downscroll = items.downscroll_opt;
+      prev_key = items.prev_key_opt;
+      next_key = items.next_key_opt;
+      alttext_key = items.alttext_key_opt;
+    });
+
     // Scroll to the comic
     scroll_to_elem($('#middleContainer'));
-    console.log('woopwoop');
-    // Modal for alt text
+
+    // Create modal for alt text (hidden)
     var alt_text = $('#comic img').attr('title');
     var modal_html = `
       <div id="myModal" class="modal">
@@ -41,25 +61,24 @@ $(function() {
     modal.find('#alt-text-goes-here').text(alt_text);
     $('#middleContainer').append(modal);
 
-    // "L"/"R" navigates prev./next, "c" shows/hides alt-text modal
     var prev = document.querySelector('a[rel="prev"]');
     var next = document.querySelector('a[rel="next"]');
-    
+
     $(document).keydown(function(event) {
-      if (event.keyCode === 37) {
-        // L arrow key (prev. comic)
+      if (event.keyCode === prev_key) {  // default: L arrow key (keyCode: 37)
+        // Navigate to previous comic
         prev.click();
-      } else if (event.keyCode === 39) {
-        // R arror key (next comic)
+      } else if (event.keyCode === next_key) {  // default: R arrow key (keyCode: 39)
+        // Navigate to next comic
         next.click();
+      } else if (event.keyCode === alttext_key) {  // default: spacebar (keyCode: 32)
+        // Show/hide alt-text modal
+        event.preventDefault();
+        toggle_display(modal);
       } else if (event.keyCode === 40) {
         // Increase scroll speed of down arrow
         event.preventDefault();
-        window.scrollBy(0, 75);
-      } else if (event.keyCode === 32) {
-        // Spacebar (show/hide alt-text modal)
-        event.preventDefault();
-        toggle_display(modal);
+        window.scrollBy(0, downscroll);
       }
     });
   });

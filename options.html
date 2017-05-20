@@ -1,28 +1,42 @@
+<!DOCTYPE html>
 <html>
-<head>
-<title>Extension Options</title>
-<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="options.js"></script>
-<style type="text/css">
-#stat {
-  font-weight:bold;
-}
-</style>
-</head>
+	<head>
+		<title>XKCD BINGE: options</title>
+	</head>
 
-<body>
-<h1>XKCD Alt Text Options</h1>
+	<body>
 
-My silly option!: 
-<input type="text" id="silly" class="opt" placeholder="foo" size="10"/>
+	<div class="opt">
+		Downscroll speed (px):
+		<input type="text" id="downscroll" size="4" /> (default 75px)
+	</div>
 
-Downscroll speed: 
-<input type="text" id="downscroll" class="opt" placeholder="75" size="4"/>
-(default = 75px)<br />
+	<div class="keyboard-shortcuts">
+		<strong>Keyboard shortcuts</strong>
 
-<input type="checkbox" id="opt2" class="opt" />
-<label for="opt2">Keep Header on Top</label><br />
+		<!-- for now, enter key codes -->
+		<!-- TODO: something shiny where you can just hit the key and have it register the key code -->
+		<div class="opt">
+			Prev. comic key code:
+			<input type="text" id="prev-key" size="8" /> (default &larr; )
+		</div>
 
-<br /><input type="button" id="save" value="Saved" />
-</body>
+		<div class="opt">
+			Next. comic key code:
+			<input type="text" id="next-key" size="8" /> (default &rarr; )
+		</div>
+
+		<div class="opt">
+			Show alt-text key code:
+			<input type="text" id="alttext-key" size="8" /> (default [space] )
+		</div>
+	</div>
+
+
+
+	<div id="status"></div>
+	<button id="save">Save</button>
+
+	<script src="options.js"></script>
+	</body>
 </html>
