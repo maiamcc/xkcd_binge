@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script type="text/javascript" src="jquery.min.js"></script>
 		<title>XKCD BINGE: options</title>
 	</head>
 
@@ -14,21 +15,41 @@
 	<div class="keyboard-shortcuts">
 		<strong>Keyboard shortcuts</strong>
 
-		<!-- for now, enter key codes -->
-		<!-- TODO: something shiny where you can just hit the key and have it register the key code -->
+		<!-- TODO: button to restore default (for this option, and for all) -->
 		<div class="opt">
 			Prev. comic key code:
-			<input type="text" id="prev-key" size="8" /> (default &larr; )
+			<button type="button" class="key-setter" id="prev-key-setter" data-opt-name="prev-key">Click to set!</button>
+			<br>
+			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
+			Current value: <span class="key-code" data-opt-name="prev-key">37</span>
+			<br>
+			Human-readable key name: <span class="key-name" data-opt-name="prev-key">&larr;</span>
+			<br>
+			(default: &larr; )
 		</div>
 
 		<div class="opt">
 			Next. comic key code:
-			<input type="text" id="next-key" size="8" /> (default &rarr; )
+			<button type="button" class="key-setter" id="next-key-setter" data-opt-name="next-key">Click to set!</button>
+			<br>
+			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
+			Current value: <span class="key-code" data-opt-name="next-key">39</span>
+			<br>
+			Human-readable key name: <span class="key-name" data-opt-name="next-key">&rarr;</span>
+			<br>
+			(default: &rarr;)
 		</div>
 
 		<div class="opt">
 			Show alt-text key code:
-			<input type="text" id="alttext-key" size="8" /> (default [space] )
+			<button type="button" class="key-setter" id="alttext-key-setter" data-opt-name="alttext-key">Click to set!</button>
+			<br>
+			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
+			Current value: <span class="key-code" data-opt-name="alttext-key">32</span>
+			<br>
+			Human-readable key name: <span class="key-name" data-opt-name="alttext-key">[space]</span>
+			<br>
+			(default: [space])
 		</div>
 	</div>
 

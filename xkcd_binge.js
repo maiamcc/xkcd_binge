@@ -38,6 +38,7 @@ $(function() {
     }, function(items) {
       console.log(items);
 
+      // TODO: error handling?
       downscroll = items.downscroll_opt;
       prev_key = items.prev_key_opt;
       next_key = items.next_key_opt;
