@@ -40,30 +40,28 @@ function listen_for_key_code(event) {
   console.log(event.key);
   if (event.keyCode !== 27) {
     // Everything but 'esc' should set key_code for the option in question
-    // ('esc' will ONLY execute code outside this conditional, i.e. stop
+    // ('esc' will ONLY execute the code outside this conditional, i.e. stop
     // listening for key presses).
     event.preventDefault();
     var key_code = event.keyCode;
     set_key_code_for_option(key_code, opt_name);
   }
-  $(document).unbind('keydown', listen_for_key_code);
+  stop_listening_for_key_code();
 }
 
-function stop_listening_for_key_code() { $(document).unbind('keydown', listen_for_key_code); }
+function stop_listening_for_key_code() {
+  $(document).unbind('keydown', listen_for_key_code);
+  toggle_modal();
+}
 
 function set_key_code_for_option(code, opt_name) {
-  // Set the code in the textbox
-  // TODO: set the key (human readable) somewhere for ppl to read.
+  // Set the code for "save" to pick up
   var key_code_elem = $('.key-code[data-opt-name="' + opt_name + '"]');
   key_code_elem.text(code);
 
+  // and set the human-readable name
   var key_name_elem = $('.key-name[data-opt-name="' + opt_name + '"]');
-  //  might want other, fancier transformations here?
-  // TODO: get keyname from keycode (cuz will have to account for codes being passed in from already-set args)
-  if (name === ' ') {
-    name = '[space]';
-  }
-  key_name_elem.text('whelp');
+  key_name_elem.text(key_code_map[code]);
 }
 
 function listen_for_key_code_for_option(event) {
@@ -71,16 +69,29 @@ function listen_for_key_code_for_option(event) {
   opt_name = target.attr('data-opt-name');
   console.log('gonna set key for option:', opt_name);
   $(document).bind('keydown', listen_for_key_code);
-  // if click, stop listening...
+
+  // Set modal to show current option name, open modal
+  human_readable_opt_name = target.attr('data-human-opt-name');
+  $('#keypress-listen-modal #modal-opt-name').text(human_readable_opt_name);
+  toggle_modal();
 }
 
+function restore_default_from_buttonclick(event) {
+  target = $(event.target);
+  opt_name = target.attr('data-opt-name');
+  code = target.attr('data-key-code');
+  set_key_code_for_option(code, opt_name);
+}
 // Add event listeners
 document.addEventListener('DOMContentLoaded', restore_options);
 $('#save').on('click', save_options);
 $('.key-setter').each(function() {
   $(this).on('click', listen_for_key_code_for_option);
 });
-
+$('.restore-default').each(function() {
+  $(this).on('click', restore_default_from_buttonclick);
+});
+$('#close-modal').on('click', toggle_modal);
 
 // Helper func.: removes all key/value pairs from given object where value is falsy.
 function remove_falsy_values(obj) {
@@ -91,4 +102,18 @@ function remove_falsy_values(obj) {
     }
   }
   return new_obj;
+}
+
+// Given a jQuery elem., toggle display: block <--> none.
+function toggle_display(elem) {
+  if (elem.css('display') === 'none') {
+    elem.css('display', 'block');
+  } else {
+    elem.css('display', 'none');
+  }
+}
+
+function toggle_modal() {
+  var modal = $('#keypress-listen-modal');
+  toggle_display(modal);
 }

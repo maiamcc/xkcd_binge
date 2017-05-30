@@ -5,7 +5,7 @@
   "background": {
     "page": "background.html"
   },
-  "content_scripts": 
+  "content_scripts":
   [
     {
       "js": ["jquery.min.js","xkcd_binge.js"],

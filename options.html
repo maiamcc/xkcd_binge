@@ -2,62 +2,98 @@
 <html>
 	<head>
 		<script type="text/javascript" src="jquery.min.js"></script>
+		<link rel="stylesheet" href="options.css">
+		<link rel="stylesheet" href="modal.css">
 		<title>XKCD BINGE: options</title>
 	</head>
 
 	<body>
 
-	<div class="opt">
-		Downscroll speed (px):
-		<input type="text" id="downscroll" size="4" /> (default 75px)
-	</div>
-
 	<div class="keyboard-shortcuts">
 		<strong>Keyboard shortcuts</strong>
 
+		<div id="keypress-listen-modal" class="modal">
+		  <div class="modal-content">
+		    <p>Press any key to set as shortcut for "<span id="modal-opt-name">[OPTION]</span>" (or press [esc] to cancel).</p>
+		  </div>
+		</div>
+
 		<!-- TODO: button to restore default (for this option, and for all) -->
 		<div class="opt">
-			Prev. comic key code:
-			<button type="button" class="key-setter" id="prev-key-setter" data-opt-name="prev-key">Click to set!</button>
-			<br>
-			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
-			Current value: <span class="key-code" data-opt-name="prev-key">37</span>
-			<br>
-			Human-readable key name: <span class="key-name" data-opt-name="prev-key">&larr;</span>
-			<br>
-			(default: &larr; )
+			<p>
+				<em>Prev. comic</em>:
+				<button type="button" class="key-setter" id="prev-key-setter" data-opt-name="prev-key" data-human-opt-name="Prev. Comic">
+					Set key
+				</button>
+			</p>
+
+			<!-- Invisible, for "save" to pick up the key code from the page. -->
+			<span class="key-code" data-opt-name="prev-key">37</span>
+
+			<p>
+				Human-readable key name: <span class="key-name" data-opt-name="prev-key">&larr;</span>
+			</p>
+
+			<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="prev-key" data-key-code="37">
+				Restore default (&larr;)
+			</button>
 		</div>
 
 		<div class="opt">
-			Next. comic key code:
-			<button type="button" class="key-setter" id="next-key-setter" data-opt-name="next-key">Click to set!</button>
-			<br>
-			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
-			Current value: <span class="key-code" data-opt-name="next-key">39</span>
-			<br>
-			Human-readable key name: <span class="key-name" data-opt-name="next-key">&rarr;</span>
-			<br>
-			(default: &rarr;)
+			<p>
+				<em>Next comic</em>:
+				<button type="button" class="key-setter" id="next-key-setter" data-opt-name="next-key" data-human-opt-name="Next Comic">
+					Set key
+				</button>
+			</p>
+
+			<!-- Invisible, for "save" to pick up the key code from the page. -->
+			<span class="key-code" data-opt-name="next-key">39</span>
+
+			<p>
+				Human-readable key name: <span class="key-name" data-opt-name="next-key">&rarr;</span>
+			</p>
+
+			<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="next-key" data-key-code="39">
+				Restore default (&rarr;)
+			</button>
 		</div>
 
 		<div class="opt">
-			Show alt-text key code:
-			<button type="button" class="key-setter" id="alttext-key-setter" data-opt-name="alttext-key">Click to set!</button>
-			<br>
-			<!-- TODO: make this one invisible, make a visible one for user to see human-readable key name -->
-			Current value: <span class="key-code" data-opt-name="alttext-key">32</span>
-			<br>
-			Human-readable key name: <span class="key-name" data-opt-name="alttext-key">[space]</span>
-			<br>
-			(default: [space])
+			<p>
+				<em>Show alt-text</em>:
+				<button type="button" class="key-setter" id="alttext-key-setter" data-opt-name="alttext-key" data-human-opt-name="Show/Hide Alt-Text">
+					Set key
+				</button>
+			</p>
+
+			<!-- Invisible, for "save" to pick up the key code from the page. -->
+			<span class="key-code" data-opt-name="alttext-key">32</span>
+
+			<p>
+				Human-readable key name: <span class="key-name" data-opt-name="alttext-key">[space]</span>
+			</p>
+
+			<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="alttext-key" data-key-code="32">
+				Restore default ([space])
+			</button>
 		</div>
 	</div>
 
+	<div class="other-settings">
+		<strong>Other Settings</strong>
 
+		<div class="opt">
+			Downscroll speed (px):
+			<input type="text" id="downscroll" size="4" /> (default 75px)
+		</div>
+	</div>
 
 	<div id="status"></div>
 	<button id="save">Save</button>
 
+	<script src="key_code_map.js"></script>
 	<script src="options.js"></script>
+
 	</body>
 </html>

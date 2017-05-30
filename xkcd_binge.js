@@ -14,6 +14,14 @@ $(function() {
     }
   }
 
+  function toggle_modal() {
+    var modal = $('#alttext-modal');
+    toggle_display(modal);
+  }
+
+
+  $('#close-modal').on('click', toggle_modal);
+
   function scroll_to_elem(elem) {
     // Given a jQuery elem., scroll to it.
     var bodyRect = document.body.getBoundingClientRect();
@@ -51,9 +59,9 @@ $(function() {
     // Create modal for alt text (hidden)
     var alt_text = $('#comic img').attr('title');
     var modal_html = `
-      <div id="myModal" class="modal">
+      <div id="alttext-modal" class="modal">
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span id="close-modal">&times;</span>
           <p id="alt-text-goes-here"></p>
         </div>
       </div>
@@ -61,6 +69,7 @@ $(function() {
     var modal = $(modal_html);
     modal.find('#alt-text-goes-here').text(alt_text);
     $('#middleContainer').append(modal);
+    $('#close-modal').on('click', toggle_modal);
 
     var prev = document.querySelector('a[rel="prev"]');
     var next = document.querySelector('a[rel="next"]');
@@ -75,9 +84,10 @@ $(function() {
       } else if (event.keyCode === alttext_key) {  // default: spacebar (keyCode: 32)
         // Show/hide alt-text modal
         event.preventDefault();
-        toggle_display(modal);
+        toggle_modal();
       } else if (event.keyCode === 40) {
         // Increase scroll speed of down arrow
+        // TODO: let user pick a fast-scroll key other than down arrow?
         event.preventDefault();
         window.scrollBy(0, downscroll);
       }
