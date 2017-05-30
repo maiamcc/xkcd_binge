@@ -10,6 +10,16 @@
 	padding-left: 15px;
 }
 
+#status {
+	padding-left: 20px;
+}
+
+#attribution {
+	display: inline;
+	float: right;
+	padding-right: 10px;
+}
+
 h4 {
 	display: inline;
 }
