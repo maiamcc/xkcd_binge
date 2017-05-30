@@ -76,11 +76,11 @@ function listen_for_key_code_for_option(event) {
   toggle_modal();
 }
 
-function restore_default_from_buttonclick(event) {
+function restore_default_keycode(event) {
   target = $(event.target);
   opt_name = target.attr('data-opt-name');
-  code = target.attr('data-key-code');
-  set_key_code_for_option(code, opt_name);
+  default_code = target.attr('data-default-val');
+  set_key_code_for_option(default_code, opt_name);
 }
 // Add event listeners
 document.addEventListener('DOMContentLoaded', restore_options);
@@ -88,9 +88,16 @@ $('#save').on('click', save_options);
 $('.key-setter').each(function() {
   $(this).on('click', listen_for_key_code_for_option);
 });
-$('.restore-default').each(function() {
-  $(this).on('click', restore_default_from_buttonclick);
+$('#keyboard-shortcuts .restore-default').each(function() {
+  $(this).on('click', restore_default_keycode);
 });
+
+// Hardcoding way to restore downscroll setting for now, if I add other
+// "other options" will need to make this programatic
+$('#downscroll-restore-default').on('click', function() {
+  $('#downscroll').val(75);
+});
+
 $('#close-modal').on('click', toggle_modal);
 
 // Helper func.: removes all key/value pairs from given object where value is falsy.
