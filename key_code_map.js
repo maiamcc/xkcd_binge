@@ -1,3 +1,5 @@
+// TODO: how to put ascii arrows in here and have them correctly insert into the page?
+
 key_code_map = {
 	'8': 'backspace',
 	'9': 'tab',

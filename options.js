@@ -9,13 +9,18 @@ function save_options() {
 
   chrome.storage.sync.set(remove_falsy_values(option_values), function() {
     // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = 'Options saved!';
+    show_status_msg('Options saved!');
+  });
+}
+
+// Briefly sets contents of "status" elem., then clear it.
+function show_status_msg(msg) {
+  var status_elem = $('#status');
+    status_elem.text(msg);
     setTimeout(function() {
       // And clear the status message.
-      status.textContent = '';
+      status_elem.text('');
     }, 1000);
-  });
 }
 
 // Restore form state using the preferences stored in chrome.storage.
@@ -82,6 +87,12 @@ function restore_default_keycode(event) {
   default_code = target.attr('data-default-val');
   set_key_code_for_option(default_code, opt_name);
 }
+
+function restore_all_defaults(event) {
+  console.log('jk this doesn\'t do anything yet! :P');
+  show_status_msg('Defaults restored!');
+}
+
 // Add event listeners
 document.addEventListener('DOMContentLoaded', restore_options);
 $('#save').on('click', save_options);
@@ -97,6 +108,7 @@ $('#keyboard-shortcuts .restore-default').each(function() {
 $('#downscroll-restore-default').on('click', function() {
   $('#downscroll').val(75);
 });
+$('#restore-all').on('click', restore_all_defaults);
 
 $('#close-modal').on('click', toggle_modal);
 
