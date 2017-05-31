@@ -37,21 +37,31 @@ $(function() {
     var next_key;
     var alttext_key;
 
-    // TODO: make this command/these defaults common (for access from options.js)
     chrome.storage.sync.get({
-      downscroll_opt: 75,
-      prev_key_opt: 37,  // L arrow
-      next_key_opt: 39, // R arrow
-      alttext_key_opt: 32,  // spacebar
-    }, function(items) {
-      console.log(items);
+      default_vals: false
+    }, function(res) {
+      if (res.default_vals === false) {
+        throw 'No default values saved to storage -- is background.js running?';
+      }
+      defaults = res.default_vals;
 
-      // TODO: error handling?
-      downscroll = items.downscroll_opt;
-      prev_key = items.prev_key_opt;
-      next_key = items.next_key_opt;
-      alttext_key = items.alttext_key_opt;
+      // Get the options saved by the user (using the default values if nothing
+      // comes back)
+      chrome.storage.sync.get({
+          downscroll_opt: defaults.downscroll_opt, // 75 px
+          prev_key_opt: defaults.prev_key_opt,  // L arrow
+          next_key_opt: defaults.next_key_opt, // R arrow
+          alttext_key_opt: defaults.alttext_key_opt,  // spacebar
+      }, function(items) {
+        console.log(items);
+
+        downscroll = items.downscroll_opt;
+        prev_key = items.prev_key_opt;
+        next_key = items.next_key_opt;
+        alttext_key = items.alttext_key_opt;
+      });
     });
+
 
     // Scroll to the comic
     scroll_to_elem($('#middleContainer'));

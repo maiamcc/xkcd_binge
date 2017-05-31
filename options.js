@@ -43,7 +43,7 @@ function restore_options() {
     // Get the options saved by the user (using the default values if nothing
     // comes back)
     chrome.storage.sync.get({
-        downscroll_opt: defaults.downscroll_opt,
+        downscroll_opt: defaults.downscroll_opt, // 75px
         prev_key_opt: defaults.prev_key_opt,  // L arrow
         next_key_opt: defaults.next_key_opt, // R arrow
         alttext_key_opt: defaults.alttext_key_opt,  // spacebar
