@@ -1,7 +1,9 @@
 /*
   Special Thanks: ... harris?
 
-  TODO: 'random' hotkey
+  TODO: add a license (https://choosealicense.com)
+  TODO: add a readme (or, like, any documentation)
+  TODO: make modal appear in a nicer place, and maybe not have weird small-caps
 */
 
 $(function() {
@@ -84,6 +86,7 @@ $(function() {
     var prev = document.querySelector('a[rel="prev"]');
     var next = document.querySelector('a[rel="next"]');
 
+    // TODO: 'random' hotkey
     $(document).keydown(function(event) {
       if (event.keyCode === prev_key) {  // default: L arrow key (keyCode: 37)
         // Navigate to previous comic
