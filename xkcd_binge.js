@@ -38,6 +38,7 @@ $(function() {
     var prev_key;
     var next_key;
     var alttext_key;
+    var random_key;
 
     chrome.storage.sync.get({
       default_vals: false
@@ -50,20 +51,19 @@ $(function() {
       // Get the options saved by the user (using the default values if nothing
       // comes back)
       chrome.storage.sync.get({
-          downscroll_opt: defaults.downscroll_opt, // 75 px
+          downscroll_speed_opt: defaults.downscroll_speed_opt, // 75 px
           prev_key_opt: defaults.prev_key_opt,  // L arrow
           next_key_opt: defaults.next_key_opt, // R arrow
           alttext_key_opt: defaults.alttext_key_opt,  // spacebar
+          random_key_opt: defaults.random_key_opt,  // 'r'
       }, function(items) {
-        console.log(items);
-
-        downscroll = items.downscroll_opt;
+        downscroll_speed = items.downscroll_speed_opt;
         prev_key = items.prev_key_opt;
         next_key = items.next_key_opt;
         alttext_key = items.alttext_key_opt;
+        random_key = items.random_key_opt;
       });
     });
-
 
     // Scroll to the comic
     scroll_to_elem($('#middleContainer'));
@@ -85,24 +85,30 @@ $(function() {
 
     var prev = document.querySelector('a[rel="prev"]');
     var next = document.querySelector('a[rel="next"]');
+    var random_comic_url = 'https://c.xkcd.com/random/comic/';
 
-    // TODO: 'random' hotkey
     $(document).keydown(function(event) {
       if (event.keyCode === prev_key) {  // default: L arrow key (keyCode: 37)
         // Navigate to previous comic
+        event.preventDefault();
         prev.click();
       } else if (event.keyCode === next_key) {  // default: R arrow key (keyCode: 39)
         // Navigate to next comic
+        event.preventDefault();
         next.click();
       } else if (event.keyCode === alttext_key) {  // default: spacebar (keyCode: 32)
         // Show/hide alt-text modal
         event.preventDefault();
         toggle_modal();
+      } else if (event.keyCode === random_key) {  // default: 'r' (keyCode: 82)
+        // Go to random comic
+        event.preventDefault();
+        window.location.href = random_comic_url;
       } else if (event.keyCode === 40) {
         // Increase scroll speed of down arrow
         // TODO: let user pick a fast-scroll key other than down arrow?
         event.preventDefault();
-        window.scrollBy(0, downscroll);
+        window.scrollBy(0, downscroll_speed);
       }
     });
   });

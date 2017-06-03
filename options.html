@@ -31,7 +31,7 @@
 					Set key
 				</button>
 
-				<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="prev_key" data-default-val="37">
+				<button type="button" class="restore-default" id="prev-key-restore-default" data-opt-name="prev_key">
 					Restore default (&larr;)
 				</button>
 			</div>
@@ -50,7 +50,7 @@
 					Set key
 				</button>
 
-				<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="next_key" data-default-val="39">
+				<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="next_key">
 					Restore default (&rarr;)
 				</button>
 			</div>
@@ -69,11 +69,29 @@
 					Set key
 				</button>
 
-				<button type="button" class="restore-default" id="next-key-restore-default" data-opt-name="alttext_key" data-default-val="32">
+				<button type="button" class="restore-default" id="alttext-key-restore-default" data-opt-name="alttext_key">
 					Restore default ([space])
 				</button>
 			</div>
 		</div>
+
+		<div class="opt">
+			<h4>Random comic</h4>: <span class="key-name" data-opt-name="random_key">r</span>
+
+			<!-- Invisible, for "save" to pick up the key code from the page. -->
+			<span class="key-code" data-opt-name="random_key">82</span>
+
+			<div class="buttons">
+				<button type="button" class="key-setter" id="random-key-setter" data-opt-name="random_key" data-human-opt-name="Random Comic">
+					Set key
+				</button>
+
+				<button type="button" class="restore-default" id="random-key-restore-default" data-opt-name="random_key">
+					Restore default (r)
+				</button>
+			</div>
+		</div>
+
 	</div>
 
 	<div id="other-settings">
@@ -84,7 +102,7 @@
 			<input type="text" id="downscroll" size="4" />
 
 			<div class="buttons">
-				<button type="button" class="restore-default" id="downscroll-restore-default" data-opt-name="alttext_key" data-default-val="75">
+				<button type="button" class="restore-default" id="downscroll-restore-default" data-opt-name="alttext_key">
 					Restore default (75px)
 				</button>
 			</div>

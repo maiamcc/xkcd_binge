@@ -4,10 +4,11 @@ var defaults = {};
 // Saves options to chrome.storage (optional: pass status msg to display on save)
 function save_options_with_msg(msg) {
   var option_values = {
-    downscroll_opt: parseInt($('#downscroll').val()),
+    downscroll_speed_opt: parseInt($('#downscroll').val()),
     prev_key_opt: parseInt($('.key-code[data-opt-name="prev_key"]').text()),
     next_key_opt: parseInt($('.key-code[data-opt-name="next_key"]').text()),
     alttext_key_opt: parseInt($('.key-code[data-opt-name="alttext_key"]').text()),
+    random_key_opt: parseInt($('.key-code[data-opt-name="random_key"]').text()),
   };
 
   chrome.storage.sync.set(remove_falsy_values(option_values), function() {
@@ -43,23 +44,22 @@ function restore_options() {
     // Get the options saved by the user (using the default values if nothing
     // comes back)
     chrome.storage.sync.get({
-        downscroll_opt: defaults.downscroll_opt, // 75px
+        downscroll_speed_opt: defaults.downscroll_speed_opt, // 75px
         prev_key_opt: defaults.prev_key_opt,  // L arrow
         next_key_opt: defaults.next_key_opt, // R arrow
         alttext_key_opt: defaults.alttext_key_opt,  // spacebar
+        random_key_opt: defaults.random_key_opt,  // 'r'
     }, function(items) {
       set_key_code_for_option(items.prev_key_opt, 'prev_key');
       set_key_code_for_option(items.next_key_opt, 'next_key');
       set_key_code_for_option(items.alttext_key_opt, 'alttext_key');
-      $('#downscroll').val(items.downscroll_opt);
+      set_key_code_for_option(items.random_key_opt, 'random_key');
+      $('#downscroll').val(items.downscroll_speed_opt);
     });
   });
 }
 
 function listen_for_key_code(event) {
-  // maybe change CSS to indicate listening for keypress?
-  console.log('you pressed:', event.keyCode);
-  console.log(event.key);
   if (event.keyCode !== 27) {
     // Everything but 'esc' should set key_code for the option in question
     // ('esc' will ONLY execute the code outside this conditional, i.e. stop
@@ -89,7 +89,6 @@ function set_key_code_for_option(code, opt_name) {
 function listen_for_key_code_for_option(event) {
   target = $(event.target);
   opt_name = target.attr('data-opt-name');
-  console.log('gonna set key for option:', opt_name);
   $(document).bind('keydown', listen_for_key_code);
 
   // Set modal to show current option name, open modal
@@ -108,7 +107,8 @@ function restore_all_defaults() {
   set_key_code_for_option(defaults.prev_key_opt, 'prev_key');
   set_key_code_for_option(defaults.next_key_opt, 'next_key');
   set_key_code_for_option(defaults.alttext_key_opt, 'alttext_key');
-  $('#downscroll').val(defaults.downscroll_opt);
+  set_key_code_for_option(defaults.random_key_opt, 'random_key');
+  $('#downscroll').val(defaults.downscroll_speed_opt);
   save_options_with_msg('Defaults restored!');
 }
 
@@ -125,7 +125,7 @@ $('#keyboard-shortcuts .restore-default').each(function() {
 // Hardcoding way to restore downscroll setting for now, if I add other
 // "other options" will need to make this programatic
 $('#downscroll-restore-default').on('click', function() {
-  $('#downscroll').val(defaults.downscroll_opt);
+  $('#downscroll').val(defaults.downscroll_speed_opt);
 });
 $('#restore-all').on('click', restore_all_defaults);
 
