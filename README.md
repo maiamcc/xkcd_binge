@@ -1,5 +1,7 @@
 ## XKCD Binge: a Chrome extension to enable your XKCD habit. (We won't judge.)
 
+[Find it on the Chrome Web Store](https://chrome.google.com/webstore/detail/xkcd-binge/pnhnbhcdjnblacgalelbbnkpkkffchgb?hl=en-US&gl=US)!
+
 ### What does it do?
 * `←` - previous comic
 * `→` - next comic

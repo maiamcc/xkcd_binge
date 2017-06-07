@@ -15,6 +15,7 @@ $(function() {
 
   // Create modal for alt text (hidden)
   var alt_text = $('#comic img').attr('title');
+  /* jshint ignore:start */
   var modal_html = `
     <div id="alttext-modal" class="modal">
       <div class="modal-content">
@@ -23,6 +24,7 @@ $(function() {
       </div>
     </div>
   `;
+  /* jshint ignore:end */
   var modal = $(modal_html);
   modal.find('#alt-text-goes-here').text(alt_text);
   $('#middleContainer').append(modal);
