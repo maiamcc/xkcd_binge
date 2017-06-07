@@ -1,38 +1,35 @@
 /*
-  Special Thanks: ... harris?
+  XKCD Binge: a Chrome extension to make it easier to binge on XKCD.
 
-  TODO: add a license (https://choosealicense.com)
-  TODO: add a readme (or, like, any documentation)
-  TODO: make modal appear in a nicer place, and maybe not have weird small-caps
+  By Maia McCormick (code.maiamccormick.com)
+
+  On GitHub: github.com/maiamcc/xkcd_binge
 */
 
 $(function() {
-  // Given a jQuery elem., toggle display: block <--> none.
-  function toggle_display(elem) {
-    if (elem.css('display') === 'none') {
-      elem.css('display', 'block');
-    } else {
-      elem.css('display', 'none');
-    }
-  }
-
-  function toggle_modal() {
-    var modal = $('#alttext-modal');
-    toggle_display(modal);
-  }
-
-
+  // Set event listeners
   $('#close-modal').on('click', toggle_modal);
 
-  function scroll_to_elem(elem) {
-    // Given a jQuery elem., scroll to it.
-    var bodyRect = document.body.getBoundingClientRect();
-    var elemRect = elem[0].getBoundingClientRect();
-    var v_offset = elemRect.top - bodyRect.top;
+  // Scroll to the comic
+  scroll_to_elem($('#middleContainer'));
 
-    window.scrollTo(0, v_offset);
-  }
+  // Create modal for alt text (hidden)
+  var alt_text = $('#comic img').attr('title');
+  var modal_html = `
+    <div id="alttext-modal" class="modal">
+      <div class="modal-content">
+        <span id="close-modal">&times;</span>
+        <p id="alt-text-goes-here"></p>
+      </div>
+    </div>
+  `;
+  var modal = $(modal_html);
+  modal.find('#alt-text-goes-here').text(alt_text);
+  $('#middleContainer').append(modal);
+  $('#close-modal').on('click', toggle_modal);
 
+  // Retrieve key mappings from storage (either defaults or user-set values)
+  // and do the things.
   chrome.extension.sendRequest({},function(response) {
     var downscroll;
     var prev_key;
@@ -40,6 +37,7 @@ $(function() {
     var alttext_key;
     var random_key;
 
+    // Retrieve defaults
     chrome.storage.sync.get({
       default_vals: false
     }, function(res) {
@@ -65,28 +63,11 @@ $(function() {
       });
     });
 
-    // Scroll to the comic
-    scroll_to_elem($('#middleContainer'));
-
-    // Create modal for alt text (hidden)
-    var alt_text = $('#comic img').attr('title');
-    var modal_html = `
-      <div id="alttext-modal" class="modal">
-        <div class="modal-content">
-          <span id="close-modal">&times;</span>
-          <p id="alt-text-goes-here"></p>
-        </div>
-      </div>
-    `;
-    var modal = $(modal_html);
-    modal.find('#alt-text-goes-here').text(alt_text);
-    $('#middleContainer').append(modal);
-    $('#close-modal').on('click', toggle_modal);
-
     var prev = document.querySelector('a[rel="prev"]');
     var next = document.querySelector('a[rel="next"]');
     var random_comic_url = 'https://c.xkcd.com/random/comic/';
 
+    // Listen for keypresses for any of our hotkeys...
     $(document).keydown(function(event) {
       if (event.keyCode === prev_key) {  // default: L arrow key (keyCode: 37)
         // Navigate to previous comic
@@ -107,9 +88,34 @@ $(function() {
       } else if (event.keyCode === 40) {
         // Increase scroll speed of down arrow
         // TODO: let user pick a fast-scroll key other than down arrow?
+        // TODO: fast-scroll up?
+        // TODO: button to turn this off?
         event.preventDefault();
         window.scrollBy(0, downscroll_speed);
       }
     });
   });
+
+  // Given a jQuery elem., toggle display: block <--> none.
+  function toggle_display(elem) {
+    if (elem.css('display') === 'none') {
+      elem.css('display', 'block');
+    } else {
+      elem.css('display', 'none');
+    }
+  }
+
+  function toggle_modal() {
+    var modal = $('#alttext-modal');
+    toggle_display(modal);
+  }
+
+  // Given a jQuery elem., scroll to it.
+  function scroll_to_elem(elem) {
+    var bodyRect = document.body.getBoundingClientRect();
+    var elemRect = elem[0].getBoundingClientRect();
+    var v_offset = elemRect.top - bodyRect.top;
+
+    window.scrollTo(0, v_offset);
+  }
 });
